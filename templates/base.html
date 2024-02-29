@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,17 +44,18 @@
         }
     </style>
 </head>
+
 <body>
     <div class="translator-container">
         <h1>Text Translator</h1>
         <form id="translateForm" class="translator-form" action="/translate_text" method="post">
             {% csrf_token %}
             <div class="translator-inputs">
-                <input type="text" name="text" id="textInput" class="form-control" placeholder="Enter text to translate" required>
+                <input type="text" name="text" id="textInput" class="form-control" placeholder="Enter text to translate"
+                    required>
                 <select class="form-select" name="dest_lang" required>
-                    <!-- Options will be populated dynamically using Django template tags -->
                     {% for code, language in languages.items %}
-                        <option value="{{ code }}">{{ language }}</option>
+                    <option value="{{ code }}">{{ language }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -65,4 +67,5 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'frontend.js' %}"></script>
 </body>
+
 </html>

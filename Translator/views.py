@@ -17,7 +17,7 @@ def home(request):
     return render(request,'base.html', {'languages': languages})
 
 
-#====================================================================================
+#=========================================================================================
 #----------------------------------------TRANSLATE----------------------------------------
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def translate_text(request):

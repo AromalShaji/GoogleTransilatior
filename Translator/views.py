@@ -6,7 +6,7 @@ from django.views.decorators.cache import cache_control
 from django.http import JsonResponse
 from django.http import HttpResponse, FileResponse, HttpResponseRedirect
 from django.contrib import messages
-from flask import Flask, request, jsonify
+import googletrans
 from googletrans import Translator, LANGUAGES
 
 #====================================================================================

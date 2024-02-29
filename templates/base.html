@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Translator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Text Translator</h1>
+        <form id="translateForm" class="mt-4" action="/translate_text" method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="textInput" class="form-label">Enter text to translate:</label>
+            <input type="text" name="text" class="form-control" id="textInput" required>
+          </div>
+          <div class="mb-3">
+              <label for="languageSelect" class="form-label">Select language:</label>
+              <select class="form-select" id="languageSelect" name="dest_lang" required>
+                  <!-- Options will be populated dynamically using Django template tags -->
+                  {% for code, language in languages.items %}
+                      <option value="{{ code }}">{{ language }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Translate</button>
+        </form>
+          <div id="translationResult" class="mt-4"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'frontend.js' %}"></script>
+</body>
+</html>

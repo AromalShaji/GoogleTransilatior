@@ -1,0 +1,43 @@
+from django.shortcuts import render
+from django.shortcuts import redirect
+from datetime import datetime, date, timedelta
+import datetime
+from django.views.decorators.cache import cache_control
+from django.http import JsonResponse
+from django.http import HttpResponse, FileResponse, HttpResponseRedirect
+from django.contrib import messages
+import googletrans
+from googletrans import Translator, LANGUAGES
+import codecs
+
+#====================================================================================
+#----------------------------------------home----------------------------------------
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def home(request):
+    languages = LANGUAGES
+    if request.method == 'POST':
+        return render(request,'home.html', {'languages': languages})
+    return render(request,'home.html', {'languages': languages})
+
+
+#=========================================================================================
+#----------------------------------------TRANSLATE----------------------------------------
+def translate_text(request):
+    if request.method == 'POST':
+        text = request.POST.get("textInput")
+        dest_lang = request.POST.get("dest_lang")
+        
+        # Check if text and dest_lang are present
+        if text is None or dest_lang is None:
+            return JsonResponse({"error": "Missing text or dest_lang parameters"}, status=400)
+        
+        translator = Translator()
+        try:
+            translated_text = translator.translate(text, dest=dest_lang)
+            if translated_text and hasattr(translated_text, 'text'):
+                return render(request,'result.html', {'input' : text, "translated_text": translated_text.text})
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    else:
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+

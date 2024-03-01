@@ -48,7 +48,7 @@
 <body>
     <div class="translator-container">
         <h1>Text Translator</h1>
-        <form id="translateForm" class="translator-form" action="/translate_text" method="post">
+        <form id="translateForm" class="translator-form"  action="{%url 'translate_text' %}" method="post">
             {% csrf_token %}
             <div class="translator-inputs">
                 <input type="text" name="text" id="textInput" class="form-control" placeholder="Enter text to translate"

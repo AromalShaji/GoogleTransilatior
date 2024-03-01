@@ -12,6 +12,7 @@ Text Translator is a simple Python program that allows users to translate text i
 
 - Python 3.x
 - `googletrans` library (`pip install googletrans==4.0.0-rc1`)
+- pip install --upgrade googletrans==4.0.0-rc1
 
 ## Usage
 

@@ -7,65 +7,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Translator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .translator-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
 
-        .translator-container h1 {
-            text-align: center;
-        }
-
-        .translator-form {
-            margin-top: 20px;
-        }
-
-        .translator-inputs {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .translator-inputs select {
-            flex-grow: 1;
-            margin-left: 10px;
-        }
-
-        .translation-result {
-            margin-top: 20px;
-            border: 1px solid #ddd;
-            padding: 10px;
-            min-height: 100px;
-            border-radius: 5px;
-        }
-    </style>
 </head>
 
 <body>
-    <div class="translator-container">
-        <h1>Text Translator</h1>
-        <form id="translateForm" class="translator-form"  action="{%url 'translate_text' %}" method="post">
-            {% csrf_token %}
-            <div class="translator-inputs">
-                <input type="text" name="text" id="textInput" class="form-control" placeholder="Enter text to translate"
-                    required>
-                <select class="form-select" name="dest_lang" required>
-                    {% for code, language in languages.items %}
-                    <option value="{{ code }}">{{ language }}</option>
-                    {% endfor %}
-                </select>
+    <div class="container-fluid">
+        <div class="row justify-content-center mt-5"> <!-- Added mt-5 for top margin -->
+            <div class="col-md-6 text-center"> <!-- Centered the content -->
+                <h1>Text Translator</h1> <!-- Text Translator heading -->
             </div>
-            <button type="submit" class="btn btn-primary mt-3">Translate</button>
-        </form>
-        <div class="translation-result" id="translationResult"></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="translator-container">
+                    <form id="translateForm" class="translator-form" action="{% url 'translate_text' %}" method="post">
+                        {% csrf_token %}
+                        <div class="translator-inputs">
+                            <input type="text" id="textInput" name="textInput" class="form-control mt-5" placeholder="Enter text to translate" required>
+                            <select class="form-select mt-4" id="dest_lang" name="dest_lang" required>
+                                {% for code, language in languages.items %}
+                                <option value="{{ code }}">{{ language }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-2">
+                                <button id="translateButton" class="btn btn-primary mt-3">Translate</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'frontend.js' %}"></script>
+
 </body>
 
 </html>

@@ -33,6 +33,9 @@
               <li class="">
                 <a class="btn btn-success text-white py-2 px-4 btn-block" href="{% url 'history' %}">HISTORY</a>
               </li>
+              <li class="">
+                <a class="btn btn-warning text-white py-2 px-4 btn-block" href="{% url 'history' %}">FEEDBACK</a>
+              </li>
               {% if 'id' in request.session %}
               <li class="">
                 <a class="btn btn-danger text-white py-2 px-4 btn-block" href="{% url 'logout' %}">LOGOUT</a>

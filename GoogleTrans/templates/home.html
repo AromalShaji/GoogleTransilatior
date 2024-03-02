@@ -121,22 +121,23 @@
                 <h2 class="my-4 heading text-center">TRANSLATE</h2>
                 <form id="translateForm" class="translator-form mt-5" action="{% url 'translate_text' %}" method="post">
                     {% csrf_token %}
-                    <div class="form-group">
+                    <div class="form-group mt-5">
                         <label for="fq_name">Text</label>
-                        <input type="text" id="textInput" name="textInput" class="form-control mt-3 rounded"
+                        <input type="text" id="textInput" name="textInput" class="form-control rounded"
                             placeholder="Enter text to translate" required>
                     </div>
-                    <div class="form-group mb-4">
-                        <label for="fq_email">Select Language</label>
-                        <select class="form-select mt-3 rounded text-center" id="dest_lang" name="dest_lang" required>
-                            <option value="" selected disabled>LANGUAGE</option>
+                    <div class="form-group mb-5">
+                        <select class="form-select mt-5 rounded text-center" id="dest_lang" name="dest_lang" required
+                            style="height: 60px;">
+                            <option value="" selected disabled>SELECT LANGUAGE</option>
                             {% for code, language in languages.items %}
                             <option value="{{ code }}">{{ language }}</option>
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary text-white py-2 px-4 btn-block" value="Register" />
+                    <div class="form-group mt-5">
+                        <input type="submit" class="btn btn-primary text-white py-2 px-4 btn-block mt-5"
+                            value="TRANSLATE" />
                     </div>
                 </form>
             </div>

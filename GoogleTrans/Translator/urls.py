@@ -10,5 +10,6 @@ urlpatterns = [
     path('register', register, name='register'),
     path('logout', logout, name='logout'),
     path('history', history, name='history'),
+    path('feedback', feedback, name='feedback'),
 
 ]

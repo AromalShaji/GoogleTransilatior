@@ -118,6 +118,19 @@ def history(request):
         return redirect('login')
 
 #====================================================================================
+#----------------------------------------feedback----------------------------------------
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def feedback(request):
+    if 'id' in request.session:
+        if request.method == 'POST':
+            messages.success(request, "Feedback Submitted")
+            return redirect('home')
+        return render(request,'feedback.html')
+    else:
+        return redirect('login')
+
+
+#====================================================================================
 #----------------------------------------Logout----------------------------------------
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def logout(request):

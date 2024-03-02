@@ -21,3 +21,12 @@ class resultHistory(models.Model):
 
     def __str__(self):
         return str(self.date) + " : " + str(self.user_id)+ " : " + str(self.result)
+
+class userFeedback(models.Model):
+    user_id = models.CharField(max_length=100)
+    body = models.CharField(max_length=50, default='')
+    text = models.CharField(max_length=50)
+    date = models.DateField(default='1')
+
+    def __str__(self):
+        return str(self.date) + " : " + str(self.user_id)+ " : " + str(self.body)

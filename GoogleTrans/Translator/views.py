@@ -10,7 +10,7 @@ import googletrans
 from googletrans import Translator, LANGUAGES
 import codecs
 from django.contrib.auth.decorators import login_required
-from .models import user, resultHistory
+from .models import user, resultHistory, userFeedback
 from datetime import datetime, date, timedelta
 import datetime
 
@@ -117,12 +117,22 @@ def history(request):
     else:
         return redirect('login')
 
+
+
 #====================================================================================
 #----------------------------------------feedback----------------------------------------
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def feedback(request):
     if 'id' in request.session:
         if request.method == 'POST':
+            textbody = request.POST.get("textbody")
+            text = request.POST.get("content")
+            ob = userFeedback()
+            ob.user_id = request.session['id']
+            ob.textbody = textbody
+            ob.text = text
+            ob.date = datetime.datetime.now().strftime('%Y-%m-%d')
+            ob.save()
             messages.success(request, "Feedback Submitted")
             return redirect('home')
         return render(request,'feedback.html')

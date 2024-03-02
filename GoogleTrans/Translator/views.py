@@ -80,7 +80,7 @@ def translate_text(request):
                 
                 if text is None or dest_lang is None:
                     messages.error(request, "Missing text or dest_lang parameters")
-                    return JsonResponse({"error": "Missing text or dest_lang parameters"}, status=400)
+                    return redirect('home')
                 
                 translator = Translator()
                 try:
@@ -96,9 +96,11 @@ def translate_text(request):
                         ob.save()
                         return render(request,'result.html', {'input' : text, "translated_text": translated_text.text, 'code' : language_name})
                 except Exception as e:
-                    return JsonResponse({"error": str(e)}, status=500)
+                    messages.error(request, str(e))
+                    return redirect('home')
             else:
-                return JsonResponse({"error": "Method not allowed"}, status=405)
+                messages.error(request, "Method not allowed")
+                return redirect('home')
         else:
             return redirect('login')
     

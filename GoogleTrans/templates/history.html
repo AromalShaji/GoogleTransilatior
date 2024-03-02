@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content%}
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">
+        <span class="message-text {% if message.tags == 'error' %}error{% endif %}">{{ message }}</span>
+        <button class="close-btn">&times;</button>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+<script>
+    const closeButtons = document.querySelectorAll('.close-btn');
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const message = button.parentElement;
+            message.remove();
+        });
+
+        setTimeout(() => {
+            const message = button.parentElement;
+            message.remove();
+        }, 5000);
+    });
+</script>
+<style>
+    .messages {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .messages li {
+        background-color: #5ed474;
+        border: 1px solid #88d24f;
+        border-radius: 4px;
+        color: #000000;
+        padding: 10px;
+        position: relative;
+        text-align: center;
+        /* Center the message */
+    }
+
+    .messages li.error {
+        background-color: #f44336;
+        /* Red background for error messages */
+        border-color: #d32f2f;
+        color: white;
+        /* White text for error messages */
+    }
+
+    .messages li .close-btn {
+        background: none;
+        border: none;
+        color: #000000;
+        cursor: pointer;
+        font-size: 1.2em;
+        padding: 0;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+
+    .messages li .close-btn:hover {
+        color: #666;
+    }
+
+    .messages li .message-text {
+        display: inline-block;
+        max-width: 90%;
+    }
+</style>
+<style>
+    body {
+        background-image: url(static/images/bg.jpeg);
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+        height: 100vh;
+    }
+
+    .container {
+        background-color: #333333;
+        color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th,
+    td {
+        padding: 10px;
+    }
+
+    th {
+        background-color: #555555;
+    }
+</style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+
+
+
+<div class="container mt-5 text-white">
+    <div class="row align-items-center justify-content-between">
+        <div class="col-md-6">
+            <h2>HISTORY</h2>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-end">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive  mt-5">
+        <table class="table text-white" id="detailsTable">
+            <thead>
+                <tr>
+                    <th>DATE</th>
+                    <th>TEXT</th>
+                    <th>RESULT</th>
+                    <th>LANGUAGE</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for i in histoy %}
+                <tr class="{% cycle 'odd-row' 'even-row' %}">
+                    <td>{{i.date}}</td>
+                    <td>{{i.text}}</td>
+                    <td>{{i.result}}</td>
+                    <td>{{i.language}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="form-group mt-5">
+            <a href="{% url 'home' %}" class="btn btn-warning text-black py-2 px-4 btn-block"
+                style="display: inline-block;">BACK</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('keyup', function () {
+            var searchText = $(this).val().toLowerCase();
+            $('#detailsTable tbody tr').each(function () {
+                var text = $(this).text().toLowerCase();
+                if (text.includes(searchText)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+</script>
+
+
+
+{% endblock %}

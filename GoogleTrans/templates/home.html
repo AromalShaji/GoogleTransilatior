@@ -79,7 +79,22 @@
         max-width: 90%;
     }
 </style>
+<script>
+    function smoothScroll(target) {
+        var targetElement = document.querySelector(target);
+        if (targetElement) {
+            // Calculate the offset to stop when the section is in the center
+            var targetOffset = targetElement.getBoundingClientRect().top;
+            var windowHeight = window.innerHeight;
+            var scrollOffset = targetOffset - (windowHeight / 2);
 
+            window.scrollTo({
+                top: scrollOffset,
+                behavior: 'smooth'
+            });
+        }
+    }
+</script>
 
 <div class="site-blocks-cover overlay" style="background-image: url(static/images/bg.jpeg)" data-aos="fade"
     data-stellar-background-ratio="0.5">
@@ -88,6 +103,8 @@
             <div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
                 <h1 class="text-white font-weight-light mb-5 text-uppercase font-weight-bold">
                     GOOGLE TRANSLATOR
+                    <p><a class="btn btn-primary py-3 px-5 text-white mt-4" onclick="smoothScroll('#translateForm')">Get
+                            Started!</a></p>
                 </h1>
             </div>
         </div>

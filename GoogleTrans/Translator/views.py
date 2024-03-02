@@ -73,33 +73,34 @@ def register(request):
 #=========================================================================================
 #----------------------------------------TRANSLATE----------------------------------------
 def translate_text(request):
-    if 'id' in request.session:
-        if request.method == 'POST':
-            text = request.POST.get("textInput")
-            dest_lang = request.POST.get("dest_lang")
-            
-            if text is None or dest_lang is None:
-                messages.error(request, "Missing text or dest_lang parameters")
-                return JsonResponse({"error": "Missing text or dest_lang parameters"}, status=400)
-            
-            translator = Translator()
-            try:
-                translated_text = translator.translate(text, dest=dest_lang)
-                if translated_text and hasattr(translated_text, 'text'):
-                    ob = resultHistory()
-                    ob.user_id = request.session['id']
-                    ob.text = text
-                    ob.result = translated_text.text
-                    ob.date = datetime.datetime.now().strftime('%Y-%m-%d')
-                    ob.language = dest_lang
-                    ob.save()
-                    return render(request,'result.html', {'input' : text, "translated_text": translated_text.text})
-            except Exception as e:
-                return JsonResponse({"error": str(e)}, status=500)
+        if 'id' in request.session:
+            if request.method == 'POST':
+                text = request.POST.get("textInput")
+                dest_lang = request.POST.get("dest_lang")
+                
+                if text is None or dest_lang is None:
+                    messages.error(request, "Missing text or dest_lang parameters")
+                    return JsonResponse({"error": "Missing text or dest_lang parameters"}, status=400)
+                
+                translator = Translator()
+                try:
+                    translated_text = translator.translate(text, dest=dest_lang)
+                    if translated_text and hasattr(translated_text, 'text'):
+                        language_name = LANGUAGES.get(dest_lang, 'Unknown Language')
+                        ob = resultHistory()
+                        ob.user_id = request.session['id']
+                        ob.text = text
+                        ob.result = translated_text.text
+                        ob.date = datetime.datetime.now().strftime('%Y-%m-%d')
+                        ob.language = dest_lang
+                        ob.save()
+                        return render(request,'result.html', {'input' : text, "translated_text": translated_text.text, 'code' : language_name})
+                except Exception as e:
+                    return JsonResponse({"error": str(e)}, status=500)
+            else:
+                return JsonResponse({"error": "Method not allowed"}, status=405)
         else:
-            return JsonResponse({"error": "Method not allowed"}, status=405)
-    else:
-        return redirect('login')
+            return redirect('login')
     
 
 #====================================================================================

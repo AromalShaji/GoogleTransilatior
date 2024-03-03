@@ -18,7 +18,7 @@ import os
 import random
 import uuid
 from django.conf import settings
-
+from django.http import FileResponse
 
 #====================================================================================
 #----------------------------------------home----------------------------------------
@@ -96,25 +96,34 @@ def translate_text(request):
                         ob.result = translated_text.text
                         ob.date = datetime.datetime.now().strftime('%Y-%m-%d')
                         ob.language = language_name
+                        try:
+                            tts = gTTS(text=translated_text.text, lang=dest_lang, slow=False)
+                            audio_filename = f"{uuid.uuid4()}.mp3"
+                            audio_path = os.path.join(settings.MEDIA_ROOT, "audio_files", audio_filename)
+                            tts.save(audio_path)
+                            ob.audio_file = os.path.join("audio_files", audio_filename)
 
-                        tts = gTTS(text=translated_text.text, lang=dest_lang, slow=False)
-                        audio_filename = f"audio_files/{uuid.uuid4()}.mp3"
-                        audio_path = os.path.join(settings.MEDIA_ROOT, audio_filename)
-                        tts.save(audio_path)
-                        ob.audio_file = audio_filename
+                        except ValueError:
+                            ob.audio_file = None
                         ob.save()
 
                         messages.success(request, "Data Transilated")
-                        return render(request,'result.html', {'input' : text, "translated_text": translated_text.text, 'code' : language_name, 'audio_filename' : audio_filename})
+                        return render(request,'result.html', {'input' : text, "translated_text": translated_text.text, 'code' : language_name, 'audio_filename' : os.path.join("audio_files", audio_filename)})
                 except Exception as e:
                     messages.error(request, str(e))
                     return redirect('home')
             else:
-                messages.error(request, "Method not allowed")
+                messages.error(request, "Something went wrong!")
                 return redirect('home')
         else:
             return redirect('login')
-    
+
+#====================================================================================
+#----------------------------------------audio---------------------------------------- 
+def audio_file_view(request, filename):
+    audio_path = os.path.join(settings.MEDIA_ROOT, filename)
+    return FileResponse(open(audio_path, 'rb'))
+
 
 #====================================================================================
 #----------------------------------------history----------------------------------------

@@ -32,6 +32,9 @@
         smoothScroll('#translateForm');
     };
 </script>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+
 <div class="site-blocks-cover overlay mt-5" style="background-image: url(static/images/bg.jpeg)" data-aos="fade"
     data-stellar-background-ratio="0.5">
     <div class="container">
@@ -62,10 +65,6 @@
                                     <label for="fq_name">INPUT TEXT</label>
                                     <input type="text" id="textInput" name="textInput" class="form-control rounded"
                                         placeholder="Enter text to translate" value="{{ input }}" disabled readonly>
-                                    <div class="input-group-append mt-2">
-                                        <button id="readTextButton1" class="btn btn-primary" type="button">Read
-                                            Text</button>
-                                    </div>
                                 </div>
                                 <div class="form-group mt-5">
                                     <label for="fq_name">TRANSILATED TEXT</label>
@@ -74,11 +73,12 @@
                                         value="{{ translated_text }}" disabled readonly>
                                     <input type="text" id="code" name="code" class="form-control rounded"
                                         placeholder="code" value="{{ code }}" disabled readonly hidden>
-                                        <button onclick="playAudio()">Play Audio</button>
-                                    <!-- <div class="input-group-append mt-2">
-                                        <button id="readTextButton2" class="btn btn-primary" type="button">Read
-                                            Text</button>
-                                    </div> -->
+                                    <div class="input-group-append mt-2">
+                                        <a class="btn btn-primary text-black"
+                                            href="{% url 'audio_file' audio_filename %}">
+                                            <i class="bi bi-volume-up"></i> Play Audio
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="form-group mt-5">
                                     <a href="{% url 'home' %}" class="btn btn-primary text-black py-2 px-4 btn-block"
@@ -94,12 +94,7 @@
         </div>
     </div>
 </div>
-<script>
-    function playAudio() {
-        var audio = new Audio("{{ audio_filename }}");
-        audio.play();
-    }
-    </script>
+
 <br>
 <br>
 <br>

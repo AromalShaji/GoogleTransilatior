@@ -106,12 +106,13 @@
         background-color: #555555;
     }
 </style>
+
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 
 
 <div class="container mt-5 text-white">
@@ -142,13 +143,15 @@
                     <th>TEXT</th>
                     <th>RESULT</th>
                     <th>LANGUAGE</th>
+                    <th>Audio</th>
                     <th></th>
                 </tr>
             </thead>
 
             <tbody>
                 {% for i in histoy %}
-                <form id="translateForm" class="translator-form mt-5" action="{% url 'history_delete' i.id %}" method="post">
+                <form id="translateForm" class="translator-form mt-5" action="{% url 'history_delete' i.id %}"
+                    method="post">
                     {% csrf_token %}
                     <tr class="{% cycle 'odd-row' 'even-row' %}">
                         <td>{{i.date}}</td>
@@ -156,11 +159,21 @@
                         <td>{{i.result}}</td>
                         <td>{{i.language}}</td>
                         <td>
+                            <div class="input-group-append mt-2">
+                                {% if i.audio_file %}
+                                <a class="btn btn-warning text-black" href="{% url 'audio_file' i.audio_file %}">
+                                    <i class="bi bi-music-note"></i>
+                                    Play Audio
+                                </a>
+                                {% else %}
+                                <span>No audio file available</span>
+                                {% endif %}
+                        </td>
+                        <td>
                             <button type="submit" class="btn btn-danger text-black py-2 px-4 btn-block">
                                 DELETE
                             </button>
                         </td>
-
                     </tr>
                 </form>
                 {% endfor %}
@@ -172,7 +185,12 @@
         </div>
     </div>
 </div>
-
+<script>
+    function playAudio(id) {
+        var audioPlayer = document.getElementById("audioPlayer" + id);
+        audioPlayer.play();
+    }
+</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

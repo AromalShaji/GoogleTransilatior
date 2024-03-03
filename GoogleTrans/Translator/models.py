@@ -18,6 +18,7 @@ class resultHistory(models.Model):
     result = models.CharField(max_length=50)
     date = models.DateField(default='1')
     language = models.CharField(max_length=50, default='')
+    audio_file = models.FileField(upload_to='uploads/', blank=True, null=True)
 
     def __str__(self):
         return str(self.date) + " : " + str(self.user_id)+ " : " + str(self.result)

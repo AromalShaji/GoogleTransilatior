@@ -11,5 +11,6 @@ urlpatterns = [
     path('logout', logout, name='logout'),
     path('history', history, name='history'),
     path('feedback', feedback, name='feedback'),
+    path('history_delete/<id>', history_delete, name='history_delete'),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

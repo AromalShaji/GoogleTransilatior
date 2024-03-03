@@ -142,17 +142,27 @@
                     <th>TEXT</th>
                     <th>RESULT</th>
                     <th>LANGUAGE</th>
+                    <th></th>
                 </tr>
             </thead>
 
             <tbody>
                 {% for i in histoy %}
-                <tr class="{% cycle 'odd-row' 'even-row' %}">
-                    <td>{{i.date}}</td>
-                    <td>{{i.text}}</td>
-                    <td>{{i.result}}</td>
-                    <td>{{i.language}}</td>
-                </tr>
+                <form id="translateForm" class="translator-form mt-5" action="{% url 'history_delete' i.id %}" method="post">
+                    {% csrf_token %}
+                    <tr class="{% cycle 'odd-row' 'even-row' %}">
+                        <td>{{i.date}}</td>
+                        <td>{{i.text}}</td>
+                        <td>{{i.result}}</td>
+                        <td>{{i.language}}</td>
+                        <td>
+                            <button type="submit" class="btn btn-danger text-black py-2 px-4 btn-block">
+                                DELETE
+                            </button>
+                        </td>
+
+                    </tr>
+                </form>
                 {% endfor %}
             </tbody>
         </table>

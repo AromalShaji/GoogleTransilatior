@@ -13,8 +13,11 @@ from django.contrib.auth.decorators import login_required
 from .models import user, resultHistory, userFeedback
 from datetime import datetime, date, timedelta
 import datetime
-
-
+from gtts import gTTS
+import os
+import random
+import uuid
+from django.conf import settings
 
 
 #====================================================================================
@@ -92,9 +95,17 @@ def translate_text(request):
                         ob.text = text
                         ob.result = translated_text.text
                         ob.date = datetime.datetime.now().strftime('%Y-%m-%d')
-                        ob.language = dest_lang
+                        ob.language = language_name
+
+                        tts = gTTS(text=translated_text.text, lang=dest_lang, slow=False)
+                        audio_filename = f"audio_files/{uuid.uuid4()}.mp3"
+                        audio_path = os.path.join(settings.MEDIA_ROOT, audio_filename)
+                        tts.save(audio_path)
+                        ob.audio_file = audio_filename
                         ob.save()
-                        return render(request,'result.html', {'input' : text, "translated_text": translated_text.text, 'code' : language_name})
+
+                        messages.success(request, "Data Transilated")
+                        return render(request,'result.html', {'input' : text, "translated_text": translated_text.text, 'code' : language_name, 'audio_filename' : audio_filename})
                 except Exception as e:
                     messages.error(request, str(e))
                     return redirect('home')
@@ -118,6 +129,20 @@ def history(request):
         return redirect('home')
     else:
         return redirect('login')
+
+#====================================================================================
+#----------------------------------------delete----------------------------------------
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def history_delete(request,id):
+    if 'id' in request.session:
+        if request.method == 'POST':
+            resultHistory.objects.filter(id =id ,user_id=request.session['id']).delete()
+            messages.error(request, "Deleted")
+            return redirect('history')
+        return redirect('history')
+    else:
+        return redirect('login')
+
 
 
 

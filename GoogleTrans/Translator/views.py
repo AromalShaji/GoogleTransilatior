@@ -105,8 +105,10 @@ def translate_text(request):
 
                         except ValueError:
                             ob.audio_file = None
-                            return render(request,'result.html', {'input' : text, "translated_text": translated_text.text, 'code' : language_name, 'audio_filename' : "null"})
                         ob.save()
+
+                        if ob.audio_file == None:
+                            return render(request,'result.html', {'input' : text, "translated_text": translated_text.text, 'code' : language_name, 'audio_filename' : "null"})
 
                         messages.success(request, "Data Transilated")
                         return render(request,'result.html', {'input' : text, "translated_text": translated_text.text, 'code' : language_name, 'audio_filename' : os.path.join("audio_files", audio_filename)})

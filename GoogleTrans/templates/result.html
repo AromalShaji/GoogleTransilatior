@@ -74,10 +74,17 @@
                                     <input type="text" id="code" name="code" class="form-control rounded"
                                         placeholder="code" value="{{ code }}" disabled readonly hidden>
                                     <div class="input-group-append mt-2">
+                                        {% if audio_filename == "null" %}
+                                        <a class="btn btn-primary text-black"
+                                            href="#audio not available">
+                                            <i class="bi bi bi-volume-off"></i><span class="text-danger">Audio Not Available</span>
+                                        </a>
+                                        {% else %}
                                         <a class="btn btn-primary text-black"
                                             href="{% url 'audio_file' audio_filename %}">
                                             <i class="bi bi-volume-up"></i> Play Audio
                                         </a>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="form-group mt-5">

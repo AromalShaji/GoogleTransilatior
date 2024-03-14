@@ -1,129 +1,177 @@
-{% extends 'base.html' %}
-
-{% load static %}
-
-{% block content%}
-
-{% if messages %}
+{% extends 'base.html' %} {% load static %} {% block content%} {% if messages %}
 <ul class="messages">
-    {% for message in messages %}
-    <li class="{{ message.tags }}">
-        <span class="message-text {% if message.tags == 'error' %}error{% endif %}">{{ message }}</span>
-        <button class="close-btn">&times;</button>
-    </li>
-    {% endfor %}
+  {% for message in messages %}
+  <li class="{{ message.tags }}">
+    <span class="message-text {% if message.tags == 'error' %}error{% endif %}"
+      >{{ message }}</span
+    >
+    <button class="close-btn">&times;</button>
+  </li>
+  {% endfor %}
 </ul>
 {% endif %}
 <script>
-    const closeButtons = document.querySelectorAll('.close-btn');
+  const closeButtons = document.querySelectorAll(".close-btn");
 
-    closeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const message = button.parentElement;
-            message.remove();
-        });
-
-        setTimeout(() => {
-            const message = button.parentElement;
-            message.remove();
-        }, 5000);
+  closeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const message = button.parentElement;
+      message.remove();
     });
+
+    setTimeout(() => {
+      const message = button.parentElement;
+      message.remove();
+    }, 5000);
+  });
 </script>
 <style>
-    .messages {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
+  .messages {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
 
-    .messages li {
-        background-color: #5ed474;
-        border: 1px solid #88d24f;
-        border-radius: 4px;
-        color: #000000;
-        padding: 10px;
-        position: relative;
-        text-align: center;
-        /* Center the message */
-    }
+  .messages li {
+    background-color: #5ed474;
+    border: 1px solid #88d24f;
+    border-radius: 4px;
+    color: #000000;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    /* Center the message */
+  }
 
-    .messages li.error {
-        background-color: #f44336;
-        /* Red background for error messages */
-        border-color: #d32f2f;
-        color: white;
-        /* White text for error messages */
-    }
+  .messages li.error {
+    background-color: #f44336;
+    /* Red background for error messages */
+    border-color: #d32f2f;
+    color: white;
+    /* White text for error messages */
+  }
 
-    .messages li .close-btn {
-        background: none;
-        border: none;
-        color: #000000;
-        cursor: pointer;
-        font-size: 1.2em;
-        padding: 0;
-        position: absolute;
-        right: 5px;
-        top: 5px;
-    }
+  .messages li .close-btn {
+    background: none;
+    border: none;
+    color: #000000;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 0;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
 
-    .messages li .close-btn:hover {
-        color: #666;
-    }
+  .messages li .close-btn:hover {
+    color: #666;
+  }
 
-    .messages li .message-text {
-        display: inline-block;
-        max-width: 90%;
-    }
+  .messages li .message-text {
+    display: inline-block;
+    max-width: 90%;
+  }
 </style>
 
-
-<div class="site-blocks-cover overlay" style="background-image: url(static/images/bg.jpeg)" data-aos="fade"
-    data-stellar-background-ratio="0.5">
-    <div class="container">
-        <div class="row align-items-center justify-content-center text-center">
-            <div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
-                <div class="row align-items-center no-gutters  overlap-section mt-1">
-                    <div class="col-md-2 d-none d-md-block">
-                        <!-- Hidden column -->
-                    </div>
-                    <div class="col-md-8">
-                        <div class="free-quote bg-dark h-100">
-                            <h2 class="my-4 heading text-center">REGISTER</h2>
-                            <form id="translateForm" class="translator-form mt-5" action="{% url 'register' %}"
-                                method="post">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    <label for="fq_name">Name</label>
-                                    <input type="text" id="name" name="name" class="form-control mt-3 rounded"
-                                        placeholder="Enter your Name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="fq_name">Email</label>
-                                    <input type="text" id="email" name="email" class="form-control mt-3 rounded"
-                                        placeholder="Enter your Email" required>
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="fq_name">Password</label>
-                                    <input type="text" id="password" name="password" class="form-control mt-3 rounded"
-                                        placeholder="Enter Password" required>
-                                </div>
-                                <div class="form-group mt-5">
-                                    <input type="submit" class="btn btn-primary text-white py-2 px-4 btn-block"
-                                        value="Register" />
-                                </div>
-                            </form>
-                            <div class="form-group mt-5">
-                                <a href="{% url 'login' %}" class="text-warning py-2 px-4 btn-block"
-                                    style="display: inline-block;">Already have an Account.</a>
-                            </div>
-                        </div>
-                    </div>
+<div
+  class="site-blocks-cover overlay"
+  style="background-image: url(static/images/bg.jpeg)"
+  data-aos="fade"
+  data-stellar-background-ratio="0.5"
+>
+  <div class="container">
+    <div class="row align-items-center justify-content-center text-center">
+      <div class="col-md-8" data-aos="fade-up" data-aos-delay="400">
+        <div class="row align-items-center no-gutters overlap-section mt-1">
+          <div class="col-md-2 d-none d-md-block">
+            <!-- Hidden column -->
+          </div>
+          <div class="col-md-8">
+            <div class="free-quote bg-dark h-100">
+              <h2 class="my-4 heading text-center">REGISTER</h2>
+              <form
+                id="translateForm"
+                class="translator-form mt-5"
+                action="{% url 'register' %}"
+                method="post"
+              >
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="fq_name">Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="form-control mt-3 rounded"
+                    placeholder="Enter your Name"
+                    required
+                  />
                 </div>
+                <div class="form-group">
+                  <label for="fq_name">Email</label>
+                  <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    class="form-control mt-3 rounded"
+                    placeholder="Enter your Email"
+                    required
+                  />
+                </div>
+                <div class="form-group mb-4">
+                  <label for="fq_name">Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control mt-3 rounded"
+                    placeholder="Enter Password"
+                    required
+                  />
+                  <div id="passwordError" style="color: red; display: none">
+                    Password must be at least 8 characters long and contain at
+                    least one special character and one number
+                  </div>
+                </div>
+                <div class="form-group mt-5">
+                  <input
+                    type="submit"
+                    class="btn btn-primary text-white py-2 px-4 btn-block"
+                    value="Register"
+                  />
+                </div>
+              </form>
+              <div class="form-group mt-5">
+                <a
+                  href="{% url 'login' %}"
+                  class="text-warning py-2 px-4 btn-block"
+                  style="display: inline-block"
+                  >Already have an Account.</a
+                >
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
+<script>
+    document.getElementById("password").addEventListener("input", function () {
+      var passwordInput = document.getElementById("password");
+      var passwordError = document.getElementById("passwordError");
+      var password = passwordInput.value;
 
+      // Regular expressions for special character and number
+      var specialCharacterRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+      var numberRegex = /\d/;
 
+      // Check if password meets criteria
+      if (password.length < 8 || !specialCharacterRegex.test(password) || !numberRegex.test(password)) {
+        passwordError.style.display = "block";
+      } else {
+        passwordError.style.display = "none";
+      }
+    });
+  </script>
 {% endblock %}
